@@ -1,11 +1,12 @@
 import React from 'react';
 import Inicio from "./inicio.js";
 import Flashcards from './Flashcards.js';
+import ResultsScreen from './ResultsScreen.js';
 
 export default function App(){
 
     const content = [{pergunta:'O que é JSX?',resposta:'Uma extensão de linguagem do JavaScript'},
-    {pergunta:'O React é __', resposta: '2. **Q:** O React é __ **R:** uma biblioteca JavaScript para construção de interfaces'},
+    {pergunta:'O React é __', resposta: 'Uma biblioteca JavaScript para construção de interfaces'},
     {pergunta:'Componentes devem iniciar com __ ', resposta: 'letra maiúscula'},
     {pergunta:'Podemos colocar __ dentro do JSX', resposta: 'expressões'},
     {pergunta:'O ReactDOM nos ajuda __ ', resposta:'interagindo com a DOM para colocar componentes React na mesma'},
@@ -24,15 +25,23 @@ export default function App(){
     const [card,setCard] = React.useState('card');
     const [questionArray] = React.useState(question);
     let [questionIndex, setQuestionIndex] = React.useState(0);
-    const [answerArray] = React.useState(answer)
+    const [answerArray] = React.useState(answer);
     let [answerIndex, setAnswerIndex] = React.useState(0);
+    const [situations,setSituations] = React.useState('situations');
+    const [arrowClass,setArrowClass] = React.useState('hidden');
+    const [cardSideAnswer, setCardSideAnswer] = React.useState('card-face card-back');
+    let [results, setResultados] = React.useState([]);
+    const[resultsScreenClass,setResultsScreenClass] = React.useState('results hidden');
+    const[goodResultClass,setGoodResultClass] = React.useState('goodresult hidden');
+    const[badResultClass,setBadResultClass] = React.useState('badresult hidden');
+    let erros = 0;
 
     function hideFrontpage(){
         const newFrontpage = [...frontpage, 'hidden'];
         let arrayClassFrontpage = newFrontpage.join(' ');
         
         let arrayCard = [...flashcard]
-        arrayCard.push('flashcard')
+        arrayCard.push('flashcard');
         let index = arrayCard.indexOf('hidden');
         arrayCard.splice(index,1);
         arrayCard.join(' ')
@@ -47,6 +56,9 @@ export default function App(){
             // setCard('card')
             if(card.includes('black') || card.includes('red') || card.includes('green') || card.includes('yellow')){
                 setCard('card')
+                setArrowClass('hidden');
+                setSituations('situations');
+                
             }
             else{
 
@@ -54,6 +66,7 @@ export default function App(){
         }
         else{
             setCard(card.concat(' ', 'card-flip'));
+            setCardSideAnswer('card-face card-back');
         }
     }
 
@@ -62,23 +75,57 @@ export default function App(){
 
     }
 
-    function questionContent(questionIndex){
-        if (card !== 'card'){
+    function questionAndAnswerContent(questionIndex){
+        if (card.includes('card-flip')){
             if(card.includes('black') || card.includes('red') || card.includes('green') || card.includes('yellow')){
-
+                
                 setQuestionIndex(questionIndex + 1);
+                setAnswerIndex(answerIndex + 1);
                 setCount(count+1)
             }
             else{
+                setSituations('situations hidden')
+                setArrowClass(' ');
             }
         }
         
     }
 
+    function hideAnswer(){
+        setCardSideAnswer(cardSideAnswer.concat(' ','hidden'));
+    }
+
+    function hideCard(){
+        if(answerIndex+1 === question.length){
+            setArrowClass('hidden');
+            setTimeout(() => {
+                setFlashcard('hidden');
+                setResultsScreenClass('results');
+                if(results.includes('Não lembrei')){
+                    setBadResultClass('badresult');
+                }
+                else{
+                    setGoodResultClass('goodresult');
+                }
+            }, 500);
+            
+        }
+    }
+
+    function addAnswer(string){
+        if(string === 'Não lembrei'){
+            erros++
+        }
+        let newresults = [...results,string];
+        setResultados(newresults);
+    }
+    console.log(results)
+
     return(
         <>
             <Inicio class={frontpage} hideFrontpage={hideFrontpage}/>
-            <Flashcards class = {flashcard} count={count} cardClass = {card} turnCard={turnCard} cardSideQuestion='card-face card-front' cardSideAnswer='card-face card-back' questionContent={questionContent} questionArray={questionArray} questionIndex={questionIndex} answerArray={answerArray} answerIndex={answerIndex} color={colors} selectColor={selectColor}/>
+            <Flashcards class = {flashcard} count={count} cardClass = {card} turnCard={turnCard} cardSideQuestion='card-face card-front' cardSideAnswer={cardSideAnswer} questionAndAnswerContent={questionAndAnswerContent} questionArray={questionArray} questionIndex={questionIndex} answerArray={answerArray} answerIndex={answerIndex} color={colors} selectColor={selectColor} situations={situations} arrowClass={arrowClass} hideAnswer={hideAnswer} hideCard={hideCard} results={results} addAnswer={addAnswer}/>
+            <ResultsScreen resultsScreenClass={resultsScreenClass} goodResultClass={goodResultClass} badResultClass={badResultClass}/> 
         </>
     )
 }
