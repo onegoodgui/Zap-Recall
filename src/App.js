@@ -1,5 +1,5 @@
 import React from 'react';
-import Inicio from "./inicio.js";
+import Frontpage from "./Frontpage.js";
 import Flashcards from './Flashcards.js';
 import ResultsScreen from './ResultsScreen.js';
 
@@ -34,7 +34,10 @@ export default function App(){
     const[resultsScreenClass,setResultsScreenClass] = React.useState('results hidden');
     const[goodResultClass,setGoodResultClass] = React.useState('goodresult hidden');
     const[badResultClass,setBadResultClass] = React.useState('badresult hidden');
+    const[inputValue,setInputValue] = React.useState('');
+    const[inputPlaceholder, setInputPlaceholder] = React.useState('Sua meta de zaps');
     let erros = 0;
+    let zapResults = 0;
 
     function hideFrontpage(){
         const newFrontpage = [...frontpage, 'hidden'];
@@ -53,7 +56,7 @@ export default function App(){
 
     function turnCard(card){
         if(card.includes('card-flip')){
-            // setCard('card')
+            setCard('card')
             if(card.includes('black') || card.includes('red') || card.includes('green') || card.includes('yellow')){
                 setCard('card')
                 setArrowClass('hidden');
@@ -101,7 +104,8 @@ export default function App(){
             setTimeout(() => {
                 setFlashcard('hidden');
                 setResultsScreenClass('results');
-                if(results.includes('Não lembrei')){
+
+                if(results.filter(zapCount).length < inputValue){
                     setBadResultClass('badresult');
                 }
                 else{
@@ -119,13 +123,34 @@ export default function App(){
         let newresults = [...results,string];
         setResultados(newresults);
     }
-    console.log(results)
 
+    function zapCount(item){
+        return item === 'Zap'
+    }
+
+    console.log(results)
+    console.log(inputValue)
     return(
         <>
-            <Inicio class={frontpage} hideFrontpage={hideFrontpage}/>
+            <Frontpage class={frontpage} hideFrontpage={hideFrontpage} value={inputValue} placeholder={inputPlaceholder} setInputValue={setInputValue}/>
             <Flashcards class = {flashcard} count={count} cardClass = {card} turnCard={turnCard} cardSideQuestion='card-face card-front' cardSideAnswer={cardSideAnswer} questionAndAnswerContent={questionAndAnswerContent} questionArray={questionArray} questionIndex={questionIndex} answerArray={answerArray} answerIndex={answerIndex} color={colors} selectColor={selectColor} situations={situations} arrowClass={arrowClass} hideAnswer={hideAnswer} hideCard={hideCard} results={results} addAnswer={addAnswer}/>
-            <ResultsScreen resultsScreenClass={resultsScreenClass} goodResultClass={goodResultClass} badResultClass={badResultClass}/> 
+            <ResultsScreen resultsScreenClass={resultsScreenClass} goodResultClass={goodResultClass} badResultClass={badResultClass}
+                    setFrontpage={setFrontpage} 
+                    setFlashcard={setFlashcard}
+                    setCount={setCount}
+                    setCard = {setCard}
+                    setQuestionIndex={setQuestionIndex}
+                    setAnswerIndex={setAnswerIndex}
+                    setSituations={setSituations}
+                    setArrowClass={setArrowClass}
+                    setCardSideAnswer={setCardSideAnswer}
+                    setResultados={setResultados}
+                    setResultsScreenClass={setResultsScreenClass}
+                    setGoodResultClass={setGoodResultClass}
+                    setBadResultClass={setBadResultClass}
+                    setInputValue={setInputValue}
+                    setInputPlaceholder={setInputPlaceholder}
+                    /> 
         </>
     )
 }

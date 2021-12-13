@@ -2,7 +2,7 @@ import arrowright from './Images/arrowright.svg';
 import lightning from "./Images/Vector.svg";
 
 
-export default function Inicio(props){
+export default function Frontpage(props){
 
 
 
@@ -13,6 +13,7 @@ export default function Inicio(props){
                 <img src={lightning} className='logoImg'></img>
                 <h1>ZapRecall</h1>
             </div>
+            <Input value={props.value} placeholder={props.placeholder} setInputValue={props.setInputValue}/>    
             <button onClick = {props.hideFrontpage}>
                 <span>Praticar React</span>
                 <img src={arrowright}></img>
@@ -22,3 +23,9 @@ export default function Inicio(props){
 
     )
 } 
+
+function Input(props){
+    return(
+        <input value={props.value} placeholder={props.placeholder} onChange={e => props.setInputValue(e.target.value)}></input>
+    )
+}

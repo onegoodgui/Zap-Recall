@@ -54,8 +54,8 @@ body{
     font-weight: 700;
 }
 
-.frontpage button{
-    width: 170%;
+.frontpage button, .results button{
+    width: 349px;
     height: 75px;
     background-color: transparent;
     border: 3px solid #FFEF61;
@@ -66,6 +66,9 @@ body{
     align-items: center;
 }
 
+.results button{
+    margin-top: 20px;
+}
 img.logoImg{
     margin-bottom: 16px;
 }
@@ -269,6 +272,17 @@ button span{
     flex-direction: row;
     justify-content: center;
     padding-bottom: 16px;
+}
+
+input{
+    width: 345px;
+    height: 49px;
+    padding: 0 15px;
+    position: absolute;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 12px;
+    top: 67vh;
 }
 .hidden{
     display: none;
