@@ -64,6 +64,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .results button{
@@ -282,7 +283,8 @@ input{
     border: 1px solid #000000;
     box-sizing: border-box;
     border-radius: 12px;
-    top: 67vh;
+    position: absolute;
+    bottom: 240px;
 }
 .hidden{
     display: none;

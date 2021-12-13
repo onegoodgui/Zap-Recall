@@ -14,7 +14,7 @@ export default function Frontpage(props){
                 <h1>ZapRecall</h1>
             </div>
             <Input value={props.value} placeholder={props.placeholder} setInputValue={props.setInputValue}/>    
-            <button onClick = {props.hideFrontpage}>
+            <button onClick = {props.hideFrontpage} data-identifier="start-zap-recall">
                 <span>Praticar React</span>
                 <img src={arrowright}></img>
                 <img src={arrowright}></img>

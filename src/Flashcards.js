@@ -11,7 +11,7 @@ export default function Flashcards(props){
     return(
         <div className={props.class}>
             <Topo src={lightning}/>
-            <div className={props.cardClass} >
+            <div className={props.cardClass} data-identifier="flashcard">
                     <Question cardSideQuestion={props.cardSideQuestion} count={props.questionIndex + 1 + '/' + props.questionArray.length} question={props.questionArray[props.questionIndex]} turnCard={props.turnCard} questionAndAnswerContent={props.questionAndAnswerContent} cardClass={props.cardClass} questionIndex={props.questionIndex}>
                     
                     </Question>
@@ -37,11 +37,11 @@ function Question(props){
 
     return(
     <div className={props.cardSideQuestion}>
-        <span>{props.count}</span>
+        <span data-identifier="counter">{props.count}</span>
         <>
             <h1>{props.question}</h1>
         </>
-        <img src={turningArrow} onClick={() => {props.turnCard(props.cardClass);props.questionAndAnswerContent(props.questionIndex);}}></img>
+        <img src={turningArrow} data-identifier="arrow" onClick={() => {props.turnCard(props.cardClass);props.questionAndAnswerContent(props.questionIndex);}}></img>
     </div>
 
     )
@@ -53,7 +53,7 @@ function Answer(props){
     return(
     <div className={props.cardSideAnswer}>
         <span className='questionUpperText'>{props.question}</span>
-        <span>{props.count}</span>
+        <span data-identifier="counter" >{props.count}</span>
         <p>{props.answer}</p>
         <SituationAnswer color={props.color} cardClass={props.cardClass} selectColor={props.selectColor} situations={props.situations} questionAndAnswerContent={props.questionAndAnswerContent} questionIndex={props.questionIndex} hideCard={props.hideCard} addAnswer={props.addAnswer}/>
         <img className={props.arrowClass} src={turningArrow} onClick={() => {props.turnCard(props.cardClass);props.questionAndAnswerContent(props.questionIndex);props.hideAnswer();}}></img>
